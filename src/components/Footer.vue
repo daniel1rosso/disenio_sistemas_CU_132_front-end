@@ -20,5 +20,6 @@ footer {
   background-color: black;
   color: blanchedalmond;
   z-index: 1;
+  
 }
 </style>

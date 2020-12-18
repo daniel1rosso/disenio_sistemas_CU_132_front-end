@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<Header />
-		<h4 style="padding-top: 15px;">¡ Pedidos !</h4>
-		<div class="table-responsive" style="width:100%;">
+		<h1 style="padding-top: 3%; color:black; text-shadow: 1px 1px 2px blue; font-weight: bold;">Restaurante System</h1>
+		<!--<div class="table-responsive" style="width:100%;">
 			<table class="table table-hover table-bordered">
 				<thead>
 					<tr>
@@ -21,7 +21,28 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>-->
+		<div class="table-responsive" style="width:100%; margin-top: 2%;">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+					<th>Numero</th>
+					<th>Nombre</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="pedido in pedidos" :key="pedido.idPedido" :value="pedido.idPedido">
+						<td>{{pedido.idPedido}}</td>
+						<td>{{pedido.nombre}}</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
+		<div>
+			<button class="btn btn-primary" v-on:click="abirDetalles()" style="margin-top: 2%;">Finalizar Preparacion de Pedido</button>
+		</div>
+		
+
 		<Footer />
 	</div>
 </template>
@@ -44,8 +65,13 @@ export default {
 		}
 	},
 	methods: {
+		
 		finalizarPreparacion(idPedido){
+			
             localStorage.idPedido = idPedido;
+			this.$router.push("/list_detalle_pedido");
+		},
+		abirDetalles(){
 			this.$router.push("/list_detalle_pedido");
 		},
 		getPedidos() {

@@ -1,19 +1,14 @@
 <template>
   <div>
     <Header />
-    <h4 style="padding-top: 15px;">¡ Detalle del pedido !</h4>
-    <div class="form-group row" style="padding-top: 15px; width: 100%;">
-        <div class="col-4">
-        </div>
-        <div class="col-4">
-        </div>
-        <div class="col-1">
-        </div>
-        <div class="col-3">
-            <button type="button" class="btn btn-success" v-on:click="finalizarElaboracion()" style="width: 90%;">Finalizar Elaboración</button>
-        </div>
-    </div> 
-    <div class="table-responsive" style="width:100%;">
+    <h1 style="padding-top: 3%; color:black; text-shadow: 1px 1px 2px blue; font-weight: bold;">Detalles de Pedidos</h1>
+    <div style= " margin-top: 3%;"> 
+      <button type="button" class="btn btn-primary"  v-on:click="getDetallePedido()" style="width: 20%; background-color: green;">Ordenar por Mayor Tiempo de Espera</button>
+      <button type="button" class="btn btn-primary"  v-on:click="ordenarPorSeccion()" style="width: 20%; margin-left: 2%; background-color: green;">Ordenar por Nombre de Seccion</button>
+      <button type="button" class="btn btn-primary"  style="width: 20%;margin-left: 2%; background-color: green;">Ordenar por Nro de Mesa</button>
+      <button type="button" class="btn btn-primary"  style="width: 20%;margin-left: 2%; background-color: green;">Ordenar por Nombre de Mozo</button>
+    </div>
+    <div class="table-responsive" style="width:100%; margin-top: 3%;">
 			<table class="table table-hover table-bordered">
 				<thead>
 					<tr>
@@ -35,6 +30,16 @@
 				</tbody>
 			</table>
 		</div>
+    <div class="form-group row" style="padding-top: 5%; width: 100%;">
+        <div class="col-4">
+        </div>
+        <div class="col-4">
+            <button type="button" class="btn btn-primary" v-on:click="finalizarElaboracion()" style="width: 50%;">Finalizar Elaboración</button>
+            <button class="btn btn-secondary" v-on:click="abrirPedido()" style= "margin-left: 2%; width: 30%; ">Cancelar</button>
+        </div>
+        <div class="col-4">
+        </div>
+    </div>
     <Footer />
   </div>
 </template>
@@ -63,7 +68,7 @@ export default {
           alertMsg : "",
           fcmUrl : "https://fcm.googleapis.com/fcm/send",
           fcmJson :{
-            to : "cGOrtlJwPWQ:APA91bH6DpNbjyDn76_DOuq56G7YqNyUooUOtZvGIr7mCdEmJEj58KcdBTrAR1zOCm50Igo6L7yOY7iiZjHHJNZvdzE0nWpUuphbGXcQ2e6itsTN6sLka27_sw2tx8XoBRZgC0HL2-cB",
+            to : "eU-2U42spFs:APA91bFUAtH0df3Dq1JmIPiEFQR_S6nfD_pRiGHbhmh7yDNFQ1Elzjd_gcLkoMtTQs2DYdExrkEK7HjtevW5nlQvzrZkQH9ToiEYRkfuj8F7GCmrJzC3vjONTbdm9dtDpK-ZUjSrDOwF",
             content_available : true,
             notification : {
               title : "Listo para Servir",
@@ -90,8 +95,11 @@ export default {
         Footer
     },
     methods:{
+      abrirPedido(){
+        this.$router.push("/list_pedidos");
+      },
       getDetallePedido(){
-        this.form.idPedido = localStorage.getItem("idPedido");
+        //this.form.idPedido = localStorage.getItem("idPedido");
         axios.post("http://localhost/pedidos_backend/pedido/list_detalle_pedido", this.form)
         .then((res) => {
           if (res.data.valid == true) {
@@ -142,7 +150,27 @@ export default {
           autoHideDelay: 5000,
           appendToast: true
           })
-      }
+      },
+     ordenarPorSeccion(){
+       //this.form.idPedido = localStorage.getItem("idPedido");
+        axios.post("http://localhost/pedidos_backend/pedido/list_detalle_pedido2", this.form)
+        .then((res) => {
+          if (res.data.valid == true) {
+            if (res.data.count != 0) {
+              this.detallepedidos = res.data.detallepedido;
+            } else {
+              this.makeToast("No se puede llenar la tabla","No hay datos registrados para llenar la tabla","info");
+              this.params.data.push(["", "", "", "", ""]);
+            }
+          } else {
+            this.makeToast("No se puede llenar la tabla","No hay datos registrados para llenar la tabla","info");
+            this.params.data.push(["", "", "", "", ""]);
+          }
+        })
+     },
+     ordenarPorMozo(){},
+     ordenarPorNroMesa(){},
+     ordenarPorTiempoEspera(){}
     },
     mounted () {
       this.getDetallePedido()
