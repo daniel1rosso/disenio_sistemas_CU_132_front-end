@@ -35,7 +35,7 @@
         </div>
         <div class="col-4">
             <button type="button" class="btn btn-primary" v-on:click="finalizarElaboracion()" style="width: 50%;">Finalizar Elaboración</button>
-            <button class="btn btn-secondary" v-on:click="abrirPedido()" style= "margin-left: 2%; width: 30%; ">Cancelar</button>
+            <button class="btn btn-secondary" v-on:click="abrirPedido()" style= "margin-left: 2%; width: 30%; ">Atras</button>
         </div>
         <div class="col-4">
         </div>
@@ -68,7 +68,7 @@ export default {
           alertMsg : "",
           fcmUrl : "https://fcm.googleapis.com/fcm/send",
           fcmJson :{
-            to : "eU-2U42spFs:APA91bFUAtH0df3Dq1JmIPiEFQR_S6nfD_pRiGHbhmh7yDNFQ1Elzjd_gcLkoMtTQs2DYdExrkEK7HjtevW5nlQvzrZkQH9ToiEYRkfuj8F7GCmrJzC3vjONTbdm9dtDpK-ZUjSrDOwF",
+            to : "eZxHZ5Wu9Is:APA91bF4cFAYH_gsCFfMhyNYPyqPXbmrZYCCE4NVKEVs6mizmDCj4AfTAnb1I8cic71E-wD1mXUWdXyF6iJXYc2XzYbhrXGjv5eTxYDRPnlEJ6QW5rGvV-_-u9q3gluOIldHncEc4bLa",
             content_available : true,
             notification : {
               title : "Listo para Servir",

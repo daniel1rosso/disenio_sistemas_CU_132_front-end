@@ -10,9 +10,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="detallepedido in detallepedidos" :key="detallepedido.idDetallePedido" :value="detallepedido.idDetallePedido">
-						<td>{{detallepedido.mesas}}</td>
-						<td>{{detallepedido.cantidadProductos}}</td>
+					<tr >
+						<td>{{detallepedidos.mesas}}</td>
+						<td>{{detallepedidos.cantidadProductos}}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -52,12 +52,14 @@ export default {
         },
 
 		getDetallePedido(){
-			this.form.idPedido = localStorage.getItem("idPedido");
-			axios.post("http://localhost/pedidos_backend/pedido/list_detalle_pedido", this.form)
+			//this.form.idPedido = localStorage.getItem("idPedido");
+			axios.post("http://localhost/pedidos_backend/pedido/list_detalles_listos")
 			.then((res) => {
 			if (res.data.valid == true) {
 				if (res.data.count != 0) {
-				this.detallepedidos = res.data.detallepedido;
+					console.log(res.data.idDetallePedido);
+				this.detallepedidos = res.data;
+				
 				} else {
 				this.makeToast("No se puede llenar la tabla","No hay datos registrados para llenar la tabla","info");
 				this.params.data.push(["", "", "", "", ""]);
