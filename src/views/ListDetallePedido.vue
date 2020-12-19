@@ -3,10 +3,10 @@
     <Header />
     <h1 style="padding-top: 3%; color:black; text-shadow: 1px 1px 2px blue; font-weight: bold;">Detalles de Pedidos</h1>
     <div style= " margin-top: 3%;"> 
-      <button type="button" class="btn btn-primary"  v-on:click="getDetallePedido()" style="width: 20%; background-color: green;">Ordenar por Mayor Tiempo de Espera</button>
-      <button type="button" class="btn btn-primary"  v-on:click="ordenarPorSeccion()" style="width: 20%; margin-left: 2%; background-color: green;">Ordenar por Nombre de Seccion</button>
-      <button type="button" class="btn btn-primary"  style="width: 20%;margin-left: 2%; background-color: green;">Ordenar por Nro de Mesa</button>
-      <button type="button" class="btn btn-primary"  style="width: 20%;margin-left: 2%; background-color: green;">Ordenar por Nombre de Mozo</button>
+      <button type="button" class="btn btn-primary"  v-on:click="getDetallePedidoFechaEspera()" style="width: 20%; background-color: green;">Ordenar por Mayor Tiempo de Espera</button>
+      <button type="button" class="btn btn-primary"  v-on:click="getDetallePedidoMesa()" style="width: 20%; margin-left: 2%; background-color: green;">Ordenar por Nro de Mesa</button>
+      <button type="button" class="btn btn-primary"  v-on:click="getDetallePedidoSeccion()" style="width: 20%;margin-left: 2%; background-color: green;">Ordenar por seccion</button>
+      <button type="button" class="btn btn-primary"  v-on:click="getDetallePedidoMozo()" style="width: 20%;margin-left: 2%; background-color: green;">Ordenar por Nombre de Mozo</button>
     </div>
     <div class="table-responsive" style="width:100%; margin-top: 3%;">
 			<table class="table table-hover table-bordered">
@@ -35,7 +35,7 @@
         </div>
         <div class="col-4">
             <button type="button" class="btn btn-primary" v-on:click="finalizarElaboracion()" style="width: 50%;">Finalizar Elaboración</button>
-            <button class="btn btn-secondary" v-on:click="abrirPedido()" style= "margin-left: 2%; width: 30%; ">Atras</button>
+            <button class="btn btn-secondary" v-on:click="abrirPedido()" style= "margin-left: 2%; width: 30%; ">Cancelar</button>
         </div>
         <div class="col-4">
         </div>
@@ -68,7 +68,7 @@ export default {
           alertMsg : "",
           fcmUrl : "https://fcm.googleapis.com/fcm/send",
           fcmJson :{
-            to : "eZxHZ5Wu9Is:APA91bF4cFAYH_gsCFfMhyNYPyqPXbmrZYCCE4NVKEVs6mizmDCj4AfTAnb1I8cic71E-wD1mXUWdXyF6iJXYc2XzYbhrXGjv5eTxYDRPnlEJ6QW5rGvV-_-u9q3gluOIldHncEc4bLa",
+            to : "eU-2U42spFs:APA91bFUAtH0df3Dq1JmIPiEFQR_S6nfD_pRiGHbhmh7yDNFQ1Elzjd_gcLkoMtTQs2DYdExrkEK7HjtevW5nlQvzrZkQH9ToiEYRkfuj8F7GCmrJzC3vjONTbdm9dtDpK-ZUjSrDOwF",  //cambiar el token
             content_available : true,
             notification : {
               title : "Listo para Servir",
@@ -98,6 +98,74 @@ export default {
       abrirPedido(){
         this.$router.push("/list_pedidos");
       },
+      getDetallePedidoMozo(){
+        //this.form.idPedido = localStorage.getItem("idPedido");
+       axios.post("http://localhost/pedidos_backend/pedido/list_detalle_pedido_mozo")
+        .then((res) => {
+          if (res.data.valid == true) {
+            if (res.data.count != 0) {
+              this.detallepedidos = res.data.detallepedido;
+            } else {
+              this.makeToast("No se puede llenar la tabla","No hay datos registrados para llenar la tabla","info");
+              this.params.data.push(["", "", "", "", ""]);
+            }
+          } else {
+            this.makeToast("No se puede llenar la tabla","No hay datos registrados para llenar la tabla","info");
+            this.params.data.push(["", "", "", "", ""]);
+          }
+        })
+      },
+      getDetallePedidoSeccion(){
+        //this.form.idPedido = localStorage.getItem("idPedido");
+       axios.post("http://localhost/pedidos_backend/pedido/list_detalle_pedido_seccion")
+        .then((res) => {
+          if (res.data.valid == true) {
+            if (res.data.count != 0) {
+              this.detallepedidos = res.data.detallepedido;
+            } else {
+              this.makeToast("No se puede llenar la tabla","No hay datos registrados para llenar la tabla","info");
+              this.params.data.push(["", "", "", "", ""]);
+            }
+          } else {
+            this.makeToast("No se puede llenar la tabla","No hay datos registrados para llenar la tabla","info");
+            this.params.data.push(["", "", "", "", ""]);
+          }
+        })
+      },
+      getDetallePedidoMesa(){
+        //this.form.idPedido = localStorage.getItem("idPedido");
+       axios.post("http://localhost/pedidos_backend/pedido/list_detalle_pedido_mesa")
+        .then((res) => {
+          if (res.data.valid == true) {
+            if (res.data.count != 0) {
+              this.detallepedidos = res.data.detallepedido;
+            } else {
+              this.makeToast("No se puede llenar la tabla","No hay datos registrados para llenar la tabla","info");
+              this.params.data.push(["", "", "", "", ""]);
+            }
+          } else {
+            this.makeToast("No se puede llenar la tabla","No hay datos registrados para llenar la tabla","info");
+            this.params.data.push(["", "", "", "", ""]);
+          }
+        })
+      },
+      getDetallePedidoFechaEspera(){
+        //this.form.idPedido = localStorage.getItem("idPedido");
+        axios.post("http://localhost/pedidos_backend/pedido/list_detalle_pedido_espera")
+        .then((res) => {
+          if (res.data.valid == true) {
+            if (res.data.count != 0) {
+              this.detallepedidos = res.data.detallepedido;
+            } else {
+              this.makeToast("No se puede llenar la tabla","No hay datos registrados para llenar la tabla","info");
+              this.params.data.push(["", "", "", "", ""]);
+            }
+          } else {
+            this.makeToast("No se puede llenar la tabla","No hay datos registrados para llenar la tabla","info");
+            this.params.data.push(["", "", "", "", ""]);
+          }
+        })
+      },
       getDetallePedido(){
         //this.form.idPedido = localStorage.getItem("idPedido");
         axios.post("http://localhost/pedidos_backend/pedido/list_detalle_pedido", this.form)
@@ -116,9 +184,21 @@ export default {
         })
       },
       finalizarElaboracion() {
-        this.form.detallepedido_checkbox = this.detallepedido_checkbox.toString();
-        axios.post("http://localhost/pedidos_backend/pedido/finalizar_elaboracion_detalle_pedido", this.form)
-        .then((res_finish) => {
+//instalar sweetalert2 ->npm install vue-sweetalert2
+      this.$swal({
+          title: '¿Desea finalizar los pedidos?',
+          text: 'No podra volver atras',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancelar',
+          showCloseButton: true,
+          showLoaderOnConfirm: true
+        }).then((result) => {
+          if(result.value) {
+            this.form.detallepedido_checkbox = this.detallepedido_checkbox.toString();
+         axios.post("http://localhost/pedidos_backend/pedido/finalizar_elaboracion_detalle_pedido", this.form)
+         .then((res_finish) => {
           this.makeToast("Finalizar Elaboración",res_finish.msg,"info");
           const dataParam = this.fcmJson;
           try {
@@ -131,6 +211,7 @@ export default {
             }).then(() => {
               axios.post("http://localhost/pedidos_backend/pedido/notificado_detalle_pedido", this.form)
               .then((res) => {
+                this.$swal('Correcto', 'Se han finalizado los pedidos seleccionados', 'sucess');
                 this.makeToast("Notificado",res.msg,"info");
                 this.getDetallePedido()
               })
@@ -138,9 +219,23 @@ export default {
             return response;
           } catch (error) {
             console.error(error);
+            this.$swal('Error', 'No se finalizaron pedidos', 'warning')
           }
         })
         this.detallepedido_checkbox = []
+        
+          } else {
+            this.$swal('Cancelado', 'No se finalizaron pedidos', 'info')
+          }
+        })
+      
+
+
+        
+
+
+
+
       },
       makeToast(titulo,texto,tipo) {
           this.toastCount++
