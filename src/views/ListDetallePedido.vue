@@ -30,12 +30,12 @@
 				</tbody>
 			</table>
 		</div>
-    <div class="form-group row" style="padding-top: 5%; width: 100%;">
+    <div class="form-group row" style="padding-top: 2%; width: 100%;">
         <div class="col-4">
         </div>
         <div class="col-4">
             <button type="button" class="btn btn-primary" v-on:click="finalizarElaboracion()" style="width: 50%;">Finalizar Elaboración</button>
-            <button class="btn btn-secondary" v-on:click="abrirPedido()" style= "margin-left: 2%; width: 30%; ">Cancelar</button>
+            <button class="btn btn-secondary" v-on:click="abrirPedido()" style= "margin-left: 2%; width: 30%; ">Atras</button>
         </div>
         <div class="col-4">
         </div>
@@ -68,7 +68,7 @@ export default {
           alertMsg : "",
           fcmUrl : "https://fcm.googleapis.com/fcm/send",
           fcmJson :{
-            to : "eU-2U42spFs:APA91bFUAtH0df3Dq1JmIPiEFQR_S6nfD_pRiGHbhmh7yDNFQ1Elzjd_gcLkoMtTQs2DYdExrkEK7HjtevW5nlQvzrZkQH9ToiEYRkfuj8F7GCmrJzC3vjONTbdm9dtDpK-ZUjSrDOwF",  //cambiar el token
+            to : "eZxHZ5Wu9Is:APA91bF4cFAYH_gsCFfMhyNYPyqPXbmrZYCCE4NVKEVs6mizmDCj4AfTAnb1I8cic71E-wD1mXUWdXyF6iJXYc2XzYbhrXGjv5eTxYDRPnlEJ6QW5rGvV-_-u9q3gluOIldHncEc4bLa",  //cambiar el token
             content_available : true,
             notification : {
               title : "Listo para Servir",
@@ -186,11 +186,11 @@ export default {
       finalizarElaboracion() {
 //instalar sweetalert2 ->npm install vue-sweetalert2
       this.$swal({
-          title: '¿Desea finalizar los pedidos?',
-          text: 'No podra volver atras',
+          title: '¿Desea Finalizar Los Detalles De Pedidos Seleccionados?',
+          
           type: 'warning',
           showCancelButton: true,
-          confirmButtonText: 'OK',
+          confirmButtonText: 'Aceptar',
           cancelButtonText: 'Cancelar',
           showCloseButton: true,
           showLoaderOnConfirm: true
@@ -211,7 +211,7 @@ export default {
             }).then(() => {
               axios.post("http://localhost/pedidos_backend/pedido/notificado_detalle_pedido", this.form)
               .then((res) => {
-                this.$swal('Correcto', 'Se han finalizado los pedidos seleccionados', 'sucess');
+                this.$swal('Correcto', 'Se Han Finalizado Los Detalles De Pedidos Seleccionados', 'success');
                 this.makeToast("Notificado",res.msg,"info");
                 this.getDetallePedido()
               })
@@ -219,13 +219,13 @@ export default {
             return response;
           } catch (error) {
             console.error(error);
-            this.$swal('Error', 'No se finalizaron pedidos', 'warning')
+            this.$swal('Error', 'No se Finalizaron Los Detalles De Pedidos', 'warning')
           }
         })
         this.detallepedido_checkbox = []
-        
+            
           } else {
-            this.$swal('Cancelado', 'No se finalizaron pedidos', 'info')
+            this.$swal('Cancelado', 'No se Finalizaron Los Detalles De Pedidos', 'info')
           }
         })
       
